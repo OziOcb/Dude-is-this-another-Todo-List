@@ -1,13 +1,17 @@
 <template>
-  <HelloWorld />
+  <div class="home">
+    <h1>Home</h1>
+    <hr />
+    <TodoList />
+  </div>
 </template>
 
 <script>
-import HelloWorld from "../components/HelloWorld";
+import TodoList from "../components/TodoList";
 
 export default {
   components: {
-    HelloWorld
+    TodoList
   }
 };
 </script>
