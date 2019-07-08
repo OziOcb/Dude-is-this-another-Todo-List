@@ -9,7 +9,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    value: "my value"
+    nav: [
+      { icon: "mdi-format-list-checks", title: "List", route: "/" },
+      {
+        icon: "mdi-comment-question-outline",
+        title: "About the Project",
+        route: "/about"
+      }
+    ]
   },
   getters,
   mutations,
