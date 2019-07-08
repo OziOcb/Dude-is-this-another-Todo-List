@@ -4,7 +4,9 @@
 
     <v-content>
       <v-slide-y-transition mode="out-in">
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </v-slide-y-transition>
     </v-content>
   </v-app>
