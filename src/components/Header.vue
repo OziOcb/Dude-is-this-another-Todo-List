@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <!-- TOP BAR (desktop) -->
-    <v-app-bar app color="info">
+    <v-app-bar app color="light-blue accent-4">
       <!-- title -->
       <v-toolbar-title class="headline text-uppercase">
         <span>Todo</span>

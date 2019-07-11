@@ -22,16 +22,14 @@
           <v-divider></v-divider>
 
           <!-- LIST -->
-          <v-list shaped>
+          <v-list class="overflow-hidden" shaped>
             <v-list-item-group v-model="completedTasks" multiple>
               <template v-for="task in tasks">
-                <v-divider v-if="!task" :key="`divider-${task.id}`"></v-divider>
-
                 <v-list-item
-                  v-else
+                  class="border"
+                  :class="{ 'border--success': task.done }"
                   :key="`item-${task.id}`"
                   :value="task.id"
-                  active-class="yellow--text text--accent-4"
                   @click.native="toggleTaskCompletion(task)"
                 >
                   <template v-slot:default="{ active }">
@@ -39,7 +37,7 @@
                       <v-checkbox
                         :input-value="active"
                         :true-value="task.title"
-                        color="yellow accent-4"
+                        color="light-blue lighten-2"
                       ></v-checkbox>
                     </v-list-item-action>
 
@@ -64,6 +62,7 @@
                       class="hidden-xs-only ma-2"
                       color="red"
                       dark
+                      rounded
                     >
                       Remove
                       <v-icon dark right>mdi-delete</v-icon>
@@ -136,3 +135,21 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+$borderWidth: 10px;
+
+.border {
+  border-left: $borderWidth solid #0091ea;
+  transform: translateX(-$borderWidth);
+  transition: transform 0.3s ease;
+
+  &::before {
+    margin-left: -$borderWidth;
+  }
+
+  &--success {
+    transform: translateX(0px);
+  }
+}
+</style>
