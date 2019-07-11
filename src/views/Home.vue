@@ -35,12 +35,6 @@
                   @click.native="toggleTaskCompletion(task)"
                 >
                   <template v-slot:default="{ active }">
-                    <v-list-item-content>
-                      <v-list-item-title
-                        v-text="`${task.id}. ${task.title}`"
-                      ></v-list-item-title>
-                    </v-list-item-content>
-
                     <v-list-item-action>
                       <v-checkbox
                         :input-value="active"
@@ -48,6 +42,32 @@
                         color="yellow accent-4"
                       ></v-checkbox>
                     </v-list-item-action>
+
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-text="task.title"
+                      ></v-list-item-title>
+                    </v-list-item-content>
+
+                    <v-btn
+                      @click.native="removeTask(task)"
+                      class="hidden-sm-and-up ma-2"
+                      fab
+                      dark
+                      color="red"
+                    >
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+
+                    <v-btn
+                      @click.native="removeTask(task)"
+                      class="hidden-xs-only ma-2"
+                      color="red"
+                      dark
+                    >
+                      Remove
+                      <v-icon dark right>mdi-delete</v-icon>
+                    </v-btn>
                   </template>
                 </v-list-item>
               </template>
@@ -64,6 +84,7 @@
 export default {
   data: () => {
     return {
+      counter: 0,
       newTaskTitle: null,
       completedTasks: [],
       tasks: [
@@ -88,11 +109,15 @@ export default {
     },
     addNewTask() {
       this.tasks.push({
-        id: this.tasks.length + 1,
+        id: this.counter + 1,
         done: false,
         title: this.newTaskTitle
       });
+      this.counter++;
       this.newTaskTitle = null;
+    },
+    removeTask(currentTask) {
+      this.tasks = this.tasks.filter(task => task.id !== currentTask.id);
     }
   },
   computed: {
@@ -107,6 +132,7 @@ export default {
     this.tasks.forEach(cTask =>
       cTask.done ? this.completedTasks.push(cTask.id) : false
     );
+    this.counter = this.tasks.length;
   }
 };
 </script>
