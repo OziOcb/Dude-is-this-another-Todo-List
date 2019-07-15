@@ -1,18 +1,18 @@
 <template>
   <v-card>
     <p class="pt-3 text-xs-center">
-      Tasks: {{ totalNumOfTasks }} / Completed:
-      {{ totalNumOfCompletedTasks }}
+      Tasks: {{ getTotalNumOfTasks }} / Completed:
+      {{ getTotalNumOfCompletedTasks }}
     </p>
     <v-divider></v-divider>
 
     <!-- LIST -->
     <v-list class="overflow-hidden" shaped>
-      <v-list-item-group v-model="completedTasks" multiple>
-        <template v-for="task in tasks">
+      <v-list-item-group :value="getCompletedTasks" multiple>
+        <template v-for="task in getTasks">
           <v-list-item
             class="border"
-            :class="{ 'border--success': task.done }"
+            :class="{ 'border--success': task.completed }"
             :key="`item-${task.id}`"
             :value="task.id"
             @click.native="toggleTaskCompletion(task)"
@@ -60,49 +60,45 @@
 </template>
 
 <script>
+// import axios from "axios";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "todoList",
   data() {
     return {
-      counter: 0,
-      completedTasks: [],
-      tasks: [
-        {
-          id: 1,
-          done: false,
-          title: "Foobar"
-        },
-        {
-          id: 2,
-          done: true,
-          title: "Fizzbuzz"
-        }
-      ]
+      counter: 0
+      // completedTasks: []
     };
   },
   methods: {
-    toggleTaskCompletion(currentTask) {
-      this.tasks.filter(task =>
-        task.id === currentTask.id ? (task.done = !task.done) : false
-      );
-    },
-    removeTask(currentTask) {
-      this.tasks = this.tasks.filter(task => task.id !== currentTask.id);
-    }
+    ...mapActions(["toggleTaskCompletion", "removeTask"])
   },
   computed: {
-    totalNumOfTasks() {
-      return this.tasks.length;
-    },
-    totalNumOfCompletedTasks() {
-      return this.tasks.filter(task => task.done).length;
-    }
+    ...mapGetters([
+      "getTasks",
+      "getTotalNumOfTasks",
+      "getTotalNumOfCompletedTasks",
+      "getCompletedTasks"
+    ])
   },
   created() {
-    this.tasks.forEach(cTask =>
-      cTask.done ? this.completedTasks.push(cTask.id) : false
-    );
-    this.counter = this.tasks.length;
+    // this.tasks.forEach(cTask =>
+    //   cTask.completed ? this.completedTasks.push(cTask.id) : false
+    // );
+    // this.counter = this.tasks.length;
+    // axios
+    //   .get("/todos?userId=1")
+    //   .then(res => {
+    //     console.log(res);
+    //     this.tasks = res.data;
+    //     this.tasks.forEach(cTask =>
+    //       cTask.completed ? this.completedTasks.push(cTask.id) : false
+    //     );
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }
 };
 </script>

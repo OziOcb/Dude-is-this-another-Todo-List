@@ -3,8 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store/index";
 import vuetify from "./plugins/vuetify";
+import axios from "axios";
 
 Vue.config.productionTip = false;
+
+axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
 
 new Vue({
   router,

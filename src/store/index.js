@@ -16,6 +16,26 @@ export default new Vuex.Store({
         title: "About the Project",
         route: "/about"
       }
+    ],
+    tasks: [
+      {
+        completed: false,
+        id: 1,
+        title: "quis ut nam facilis et officia qui",
+        userId: 1
+      },
+      {
+        completed: true,
+        id: 2,
+        title: "et officia qui",
+        userId: 1
+      },
+      {
+        completed: true,
+        id: 3,
+        title: "elo elo elo",
+        userId: 1
+      }
     ]
   },
   getters,
