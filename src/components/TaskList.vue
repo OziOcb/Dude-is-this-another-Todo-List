@@ -60,19 +60,11 @@
 </template>
 
 <script>
-// import axios from "axios";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "todoList",
-  data() {
-    return {
-      counter: 0
-      // completedTasks: []
-    };
-  },
   methods: {
-    ...mapActions(["toggleTaskCompletion", "removeTask"])
+    ...mapActions(["toggleTaskCompletion", "removeTask", "fetchTasks"])
   },
   computed: {
     ...mapGetters([
@@ -83,22 +75,7 @@ export default {
     ])
   },
   created() {
-    // this.tasks.forEach(cTask =>
-    //   cTask.completed ? this.completedTasks.push(cTask.id) : false
-    // );
-    // this.counter = this.tasks.length;
-    // axios
-    //   .get("/todos?userId=1")
-    //   .then(res => {
-    //     console.log(res);
-    //     this.tasks = res.data;
-    //     this.tasks.forEach(cTask =>
-    //       cTask.completed ? this.completedTasks.push(cTask.id) : false
-    //     );
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    this.fetchTasks();
   }
 };
 </script>

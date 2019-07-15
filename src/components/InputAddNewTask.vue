@@ -17,12 +17,7 @@ export default {
   },
   methods: {
     addNewTask() {
-      this.tasks.push({
-        id: this.counter + 1,
-        done: false,
-        title: this.newTaskTitle
-      });
-      this.counter++;
+      this.$store.dispatch("addNewTask", this.newTaskTitle);
       this.newTaskTitle = null;
     }
   }
