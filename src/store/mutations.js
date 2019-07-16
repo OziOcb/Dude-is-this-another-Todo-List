@@ -11,7 +11,7 @@ export const REMOVE_TASK = (state, currentTask) => {
 export const ADD_NEW_TASK = (state, newTaskTitle) => {
   state.tasks.push({
     id: state.counter + 1,
-    done: false,
+    completed: false,
     title: newTaskTitle
   });
   state.counter++;
