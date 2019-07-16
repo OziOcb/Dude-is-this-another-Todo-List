@@ -30,26 +30,7 @@
                 <v-list-item-title v-text="task.title"></v-list-item-title>
               </v-list-item-content>
 
-              <v-btn
-                @click.native="removeTask(task)"
-                class="hidden-sm-and-up ma-2"
-                fab
-                dark
-                color="red"
-              >
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-
-              <v-btn
-                @click.native="removeTask(task)"
-                class="hidden-xs-only ma-2"
-                color="red"
-                dark
-                rounded
-              >
-                Remove
-                <v-icon dark right>mdi-delete</v-icon>
-              </v-btn>
+              <TaskRemoveBtn :task="task" />
             </template>
           </v-list-item>
         </template>
@@ -61,19 +42,19 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import TaskRemoveBtn from "@/components/TaskRemoveBtn.vue";
 
 export default {
-  methods: {
-    ...mapActions(["toggleTaskCompletion", "removeTask", "fetchTasks"])
+  components: {
+    TaskRemoveBtn
   },
-  computed: {
-    ...mapGetters([
-      "getTasks",
-      "getTotalNumOfTasks",
-      "getTotalNumOfCompletedTasks",
-      "getCompletedTasks"
-    ])
-  },
+  methods: mapActions(["toggleTaskCompletion", "fetchTasks"]),
+  computed: mapGetters([
+    "getTasks",
+    "getTotalNumOfTasks",
+    "getTotalNumOfCompletedTasks",
+    "getCompletedTasks"
+  ]),
   created() {
     this.fetchTasks();
   }
