@@ -1,9 +1,13 @@
 <template>
   <v-card>
-    <p class="pt-3 text-xs-center">
+    <div class="py-4 text-xs-center">
       Tasks: {{ getTotalNumOfTasks }} / Completed:
       {{ getTotalNumOfCompletedTasks }}
-    </p>
+    </div>
+    <v-divider></v-divider>
+
+    <TaskFilterBtnsBar />
+
     <v-divider></v-divider>
 
     <!-- LIST -->
@@ -43,10 +47,12 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import TaskRemoveBtn from "@/components/TaskRemoveBtn.vue";
+import TaskFilterBtnsBar from "@/components/TaskFilterBtnsBar.vue";
 
 export default {
   components: {
-    TaskRemoveBtn
+    TaskRemoveBtn,
+    TaskFilterBtnsBar
   },
   methods: mapActions(["toggleTaskCompletion", "fetchTasks"]),
   computed: mapGetters([
