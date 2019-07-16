@@ -16,8 +16,9 @@
         <v-btn
           v-for="(item, index) in getNav"
           :key="index"
-          :to="item.route"
+          :to="{ name: item.name }"
           text
+          exact
           >{{ item.title }}</v-btn
         >
       </v-toolbar-items>
@@ -65,7 +66,8 @@
             v-for="(item, index) in getNav"
             :key="index"
             link
-            :to="item.route"
+            :to="{ name: item.name }"
+            exact
           >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
