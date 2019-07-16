@@ -14,7 +14,7 @@
       <!-- nav list (desktop) -->
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
-          v-for="(item, index) in nav"
+          v-for="(item, index) in getNav"
           :key="index"
           :to="item.route"
           text
@@ -62,7 +62,7 @@
         >
           <!-- loop through nav-links -->
           <v-list-item
-            v-for="(item, index) in nav"
+            v-for="(item, index) in getNav"
             :key="index"
             link
             :to="item.route"
@@ -92,7 +92,7 @@ export default {
     drawer: false,
     group: 1
   }),
-  computed: mapGetters(["nav"]),
+  computed: mapGetters(["getNav"]),
   watch: {
     group() {
       this.drawer = false;
