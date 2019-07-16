@@ -27,7 +27,12 @@
 import { mapActions } from "vuex";
 
 export default {
-  props: ["task"],
+  props: {
+    task: {
+      type: Object,
+      required: true
+    }
+  },
   methods: mapActions(["removeTask"])
 };
 </script>
