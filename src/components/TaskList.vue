@@ -6,14 +6,14 @@
     </div>
     <v-divider></v-divider>
 
-    <TaskFilterBtnsBar />
+    <TaskFilterBtnsBar @changeFilterValue="filter = $event" />
 
     <v-divider></v-divider>
 
     <!-- LIST -->
     <v-list class="overflow-hidden" shaped>
       <v-list-item-group :value="getCompletedTasks" multiple>
-        <template v-for="task in getTasks">
+        <template v-for="task in filteredTasks">
           <v-list-item
             class="border"
             :class="{ 'border--success': task.completed }"
@@ -54,13 +54,32 @@ export default {
     TaskRemoveBtn,
     TaskFilterBtnsBar
   },
+  data() {
+    return {
+      filter: "all"
+    };
+  },
   methods: mapActions(["toggleTaskCompletion", "fetchTasks"]),
-  computed: mapGetters([
-    "getTasks",
-    "getTotalNumOfTasks",
-    "getTotalNumOfCompletedTasks",
-    "getCompletedTasks"
-  ]),
+  computed: {
+    ...mapGetters([
+      "getTasks",
+      "getTotalNumOfTasks",
+      "getTotalNumOfCompletedTasks",
+      "getCompletedTasks"
+    ]),
+    filteredTasks() {
+      let list = [];
+      const { filter, getTasks } = this;
+
+      filter === "completed"
+        ? (list = getTasks.filter(t => t.completed))
+        : filter === "uncompleted"
+        ? (list = getTasks.filter(t => !t.completed))
+        : (list = getTasks);
+
+      return list;
+    }
+  },
   created() {
     this.fetchTasks();
   }
