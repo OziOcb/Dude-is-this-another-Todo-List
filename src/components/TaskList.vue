@@ -12,7 +12,11 @@
 
     <!-- LIST -->
     <v-list class="overflow-hidden" shaped>
-      <v-list-item-group :value="getCompletedTasks" multiple>
+      <v-list-item-group
+        :value="completedTasksModel"
+        multiple
+        active-class="elo"
+      >
         <template v-for="task in filteredTasks">
           <v-list-item
             class="border"
@@ -64,8 +68,7 @@ export default {
     ...mapGetters([
       "getTasks",
       "getTotalNumOfTasks",
-      "getTotalNumOfCompletedTasks",
-      "getCompletedTasks"
+      "getTotalNumOfCompletedTasks"
     ]),
     filteredTasks() {
       let list = [];
@@ -78,6 +81,16 @@ export default {
         : (list = getTasks);
 
       return list;
+    },
+    completedTasksModel() {
+      const cTasks = [];
+      const { filter, getTasks } = this;
+
+      filter !== "uncompleted"
+        ? getTasks.forEach(t => (t.completed ? cTasks.push(t.id) : false))
+        : false;
+
+      return cTasks;
     }
   },
   created() {
