@@ -31,14 +31,14 @@ export default {
       btns: [
         {
           id: 1,
-          mq: "hidden-sm-and-up",
+          mq: "hidden-md-and-up",
           type: "fab",
           text: "",
           icon: "mdi-delete"
         },
         {
           id: 2,
-          mq: "hidden-xs-only",
+          mq: "hidden-sm-and-down",
           type: "rounded",
           text: "Remove",
           icon: "mdi-delete"

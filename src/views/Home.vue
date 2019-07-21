@@ -1,12 +1,12 @@
 <template>
   <v-container>
     <v-layout wrap>
-      <v-flex xs12 sm8 offset-sm2 md6 offset-md3>
+      <v-flex xs12 sm10 offset-sm1 md8 offset-md2>
         <!-- INPUT -->
         <InputAddNewTask />
       </v-flex>
 
-      <v-flex xs12 sm8 offset-sm2 md6 offset-md3>
+      <v-flex xs12 sm10 offset-sm1 md8 offset-md2>
         <!-- TASK LIST -->
         <TaskList />
       </v-flex>
