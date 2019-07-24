@@ -1,78 +1,61 @@
 <template>
   <div class="input">
     <v-text-field
-      v-model="$v.formResponses.task.$model"
+      v-model="task"
       label="What is on your mind?"
+      :error-messages="taskErrors"
+      :counter="40"
+      :maxLength="50"
       outlined
       clearable
       @keydown.enter="addNewTask"
+      @input="$v.task.$touch()"
+      @blur="leavingInput"
     ></v-text-field>
-
-    <p v-if="errors" class="msg error">
-      <span v-if="!$v.formResponses.task.required">
-        this field is required.
-      </span>
-      <span v-if="!$v.formResponses.task.minLength">
-        Field must have at least
-        {{ $v.formResponses.task.$params.minLength.min }} characters.
-      </span>
-    </p>
-
-    <p v-if="uiState === 'task added'" class="msg success">
-      Hooray! Your task was added!
-    </p>
   </div>
 </template>
 
 <script>
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
 export default {
   data: () => {
     return {
-      uiState: "submit not clicked",
       errors: false,
-      empty: true,
-      formResponses: {
-        task: ""
-      }
+      task: ""
     };
   },
   validations: {
-    formResponses: {
-      task: {
-        required,
-        minLength: minLength(2)
-      }
+    task: {
+      required,
+      minLength: minLength(2),
+      maxLength: maxLength(40)
+    }
+  },
+  computed: {
+    taskErrors() {
+      const errors = [];
+      if (!this.$v.task.$dirty) return errors;
+      !this.$v.task.maxLength &&
+        errors.push("Task must be at most 40 characters long");
+      !this.$v.task.minLength &&
+        errors.push("Task must be at least 2 characters long");
+      !this.$v.task.required && errors.push("This field is required.");
+      return errors;
     }
   },
   methods: {
     addNewTask() {
-      this.formTouched = !this.$v.formResponses.$anyDirty;
-      this.errors = this.$v.formResponses.$anyError;
-      this.uiState = "submit clicked";
-      if (this.errors === false && this.formTouched === false) {
-        //this is where you send the responses
-        this.$store.dispatch("addNewTask", this.formResponses.task);
-        this.uiState = "task added";
+      this.errors = this.$v.$anyError;
+      if (this.errors === false) {
+        this.$store.dispatch("addNewTask", this.task);
+        this.task = "";
+        this.$v.task.$reset();
       }
-      this.formResponses.task = "";
+    },
+    leavingInput() {
+      this.task ? this.$v.task.$touch() : this.$v.task.$reset();
     }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.input {
-  position: relative;
-}
-
-.msg {
-  position: absolute;
-  bottom: -15%;
-  left: 0;
-  right: 0;
-  border-radius: 3px;
-  padding-left: 10px;
-}
-</style>
