@@ -1,15 +1,23 @@
 <template>
   <v-card>
-    <p class="pt-3 text-xs-center">
+    <div class="py-4 text-xs-center">
       Tasks: {{ getTotalNumOfTasks }} / Completed:
       {{ getTotalNumOfCompletedTasks }}
-    </p>
+    </div>
+    <v-divider></v-divider>
+
+    <TaskFilterBtnsBar @changeFilterValue="filter = $event" />
+
     <v-divider></v-divider>
 
     <!-- LIST -->
     <v-list class="overflow-hidden" shaped>
-      <v-list-item-group :value="getCompletedTasks" multiple>
-        <template v-for="task in getTasks">
+      <v-list-item-group
+        :value="completedTasksModel"
+        multiple
+        active-class="elo"
+      >
+        <template v-for="task in filteredTasks">
           <v-list-item
             class="border"
             :class="{ 'border--success': task.completed }"
@@ -30,26 +38,7 @@
                 <v-list-item-title v-text="task.title"></v-list-item-title>
               </v-list-item-content>
 
-              <v-btn
-                @click.native="removeTask(task)"
-                class="hidden-sm-and-up ma-2"
-                fab
-                dark
-                color="red"
-              >
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-
-              <v-btn
-                @click.native="removeTask(task)"
-                class="hidden-xs-only ma-2"
-                color="red"
-                dark
-                rounded
-              >
-                Remove
-                <v-icon dark right>mdi-delete</v-icon>
-              </v-btn>
+              <TaskRemoveBtn :task="task" />
             </template>
           </v-list-item>
         </template>
@@ -61,18 +50,48 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import TaskRemoveBtn from "@/components/TaskRemoveBtn.vue";
+import TaskFilterBtnsBar from "@/components/TaskFilterBtnsBar.vue";
 
 export default {
-  methods: {
-    ...mapActions(["toggleTaskCompletion", "removeTask", "fetchTasks"])
+  components: {
+    TaskRemoveBtn,
+    TaskFilterBtnsBar
   },
+  data() {
+    return {
+      filter: "all"
+    };
+  },
+  methods: mapActions(["toggleTaskCompletion", "fetchTasks"]),
   computed: {
     ...mapGetters([
       "getTasks",
       "getTotalNumOfTasks",
-      "getTotalNumOfCompletedTasks",
-      "getCompletedTasks"
-    ])
+      "getTotalNumOfCompletedTasks"
+    ]),
+    filteredTasks() {
+      let list = [];
+      const { filter, getTasks } = this;
+
+      filter === "completed"
+        ? (list = getTasks.filter(t => t.completed))
+        : filter === "uncompleted"
+        ? (list = getTasks.filter(t => !t.completed))
+        : (list = getTasks);
+
+      return list;
+    },
+    completedTasksModel() {
+      const cTasks = [];
+      const { filter, getTasks } = this;
+
+      filter !== "uncompleted"
+        ? getTasks.forEach(t => (t.completed ? cTasks.push(t.id) : false))
+        : false;
+
+      return cTasks;
+    }
   },
   created() {
     this.fetchTasks();
