@@ -1,4 +1,5 @@
 import axios from "axios";
+import db from "@/fb_db_config.js";
 
 export const updateValue = ({ commit }, payload) => {
   commit("updateValue", payload);
@@ -12,7 +13,16 @@ export const removeTask = ({ commit }, currentTask) => {
   commit("REMOVE_TASK", currentTask);
 };
 
-export const addNewTask = ({ commit }, newTaskTitle) => {
+export const addNewTask = ({ commit, state }, newTaskTitle) => {
+  db.collection("tasks")
+    .add({
+      id: state.counter + 1,
+      completed: false,
+      title: newTaskTitle
+    })
+    .then(() => {
+      console.log("poszlo!");
+    });
   commit("ADD_NEW_TASK", newTaskTitle);
 };
 
