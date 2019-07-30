@@ -1,26 +1,57 @@
-export const TOGGLE_TASK_COMPLETION = (state, currentTask) => {
-  state.tasks.filter(task =>
-    task.id === currentTask.id ? (task.completed = !task.completed) : false
-  );
-};
-
-export const REMOVE_TASK = (state, currentTask) => {
-  state.tasks = state.tasks.filter(task => task.id !== currentTask.id);
-};
-
-export const ADD_NEW_TASK = (state, newTaskTitle) => {
-  state.tasks.push({
-    id: state.counter + 1,
-    completed: false,
-    title: newTaskTitle
-  });
-  state.counter++;
-};
+import db from "@/fb_db_config.js";
 
 export const FETCH_TASKS = (state, tasks) => {
   state.tasks = tasks;
 };
 
+export const ADD_NEW_TASK = (state, newTaskTitle) => {
+  const date = Date.now();
+
+  db.collection("tasks")
+    .doc(`${date}`)
+    .set({
+      id: date,
+      completed: false,
+      title: newTaskTitle
+    })
+    .then(() => {
+      console.log("Task successfully added");
+    })
+    .catch(err => {
+      console.log("Error adding new task: ", err);
+    });
+};
+
+export const REMOVE_TASK = (state, currentTask) => {
+  db.collection("tasks")
+    .doc(`${currentTask.id}`)
+    .delete()
+    .then(() => {
+      console.log("Task successfully deleted");
+    })
+    .catch(err => {
+      console.log("Error removing task", err);
+    });
+};
+
+export const TOGGLE_TASK_COMPLETION = (state, currentTask) => {
+  db.collection("tasks")
+    .doc(`${currentTask.id}`)
+    .update({
+      completed: !currentTask.completed
+    })
+    .then(() => {
+      console.log("Task toggled");
+    })
+    .catch(err => {
+      console.log("Error toggling task", err);
+    });
+};
+
 export const UPDATE_COUNTER = (state, value) => {
   state.counter = value;
+};
+
+export const ADD_TO_THE_COUNTER = (state, value) => {
+  state.counter += value;
 };
