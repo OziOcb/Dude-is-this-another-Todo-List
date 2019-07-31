@@ -3,7 +3,7 @@
     <v-btn
       v-for="btn in btns"
       :key="btn.id"
-      @click.native="removeTask(task)"
+      @click.stop="removeTask(task)"
       :class="`${btn.mq} ma-2`"
       :fab="btn.type === 'fab'"
       :rounded="btn.type === 'rounded'"
