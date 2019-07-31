@@ -1,5 +1,14 @@
 <template>
   <div class="header">
+    <!-- SNACKBAR -->
+    <v-snackbar v-model="snackbar" top :timeout="2000" color="success">
+      {{ text }}
+      <v-btn color="white" text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
+    <!-- SNACKBAR END -->
+
     <!-- TOP BAR (desktop) -->
     <v-app-bar app color="light-blue accent-4">
       <!-- title -->
@@ -92,12 +101,17 @@ import { mapGetters } from "vuex";
 export default {
   data: () => ({
     drawer: false,
-    group: 1
+    group: 1,
+    snackbar: false,
+    text: "New task has been added!"
   }),
-  computed: mapGetters(["getNav"]),
+  computed: mapGetters(["getNav", "getTotalNumOfTasks"]),
   watch: {
     group() {
       this.drawer = false;
+    },
+    getTotalNumOfTasks(val, oldVal) {
+      if (val > oldVal) this.snackbar = true;
     }
   }
 };
