@@ -1,9 +1,9 @@
 import db from "@/fb_db_config.js";
 
 export const fetchTasks = ({ commit, dispatch }) => {
-  db.collection("tasks").onSnapshot(function(querySnapshot) {
-    var tasks = [];
-    querySnapshot.forEach(function(doc) {
+  db.collection("tasks").onSnapshot(querySnapshot => {
+    let tasks = [];
+    querySnapshot.forEach(doc => {
       tasks.push(doc.data());
     });
     commit("FETCH_TASKS", tasks);
