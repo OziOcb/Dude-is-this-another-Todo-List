@@ -1,11 +1,56 @@
 <template>
   <div class="auth">
-    <h1>This is a login page</h1>
+    <!-- INPUT -->
+    <v-tabs
+      v-model="tab"
+      background-color="deep-purple accent-4"
+      centered
+      dark
+      icons-and-text
+    >
+      <v-tabs-slider></v-tabs-slider>
+
+      <v-tab href="#login">
+        Login
+      </v-tab>
+
+      <v-tab href="#register">
+        Register
+      </v-tab>
+    </v-tabs>
+
+    <v-container>
+      <v-layout wrap>
+        <v-flex xs12 sm10 offset-sm1 md8 offset-md2>
+          <v-tabs-items v-model="tab">
+            <v-tab-item value="login">
+              <v-card flat>
+                <v-card-text>{{ text }}</v-card-text>
+              </v-card>
+            </v-tab-item>
+
+            <v-tab-item value="register">
+              <v-card flat>
+                <v-card-text>{{ text }}</v-card-text>
+              </v-card>
+            </v-tab-item>
+          </v-tabs-items>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      tab: "login",
+      text:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    };
+  }
+};
 </script>
 
 <style></style>
