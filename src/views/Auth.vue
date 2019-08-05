@@ -24,13 +24,11 @@
         <v-flex xs12 sm10 offset-sm1 md8 offset-md2>
           <v-tabs-items v-model="tab">
             <v-tab-item value="login">
-              <v-card flat>
-                <v-card-text>{{ text }}</v-card-text>
-              </v-card>
+              <LoginRegister :tab="tab" />
             </v-tab-item>
 
             <v-tab-item value="register">
-              <Register />
+              <LoginRegister :tab="tab" />
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
@@ -40,7 +38,7 @@
 </template>
 
 <script>
-import Register from "@/components/Auth/Register.vue";
+import LoginRegister from "@/components/Auth/LoginRegister.vue";
 
 export default {
   data() {
@@ -51,7 +49,7 @@ export default {
     };
   },
   components: {
-    Register
+    LoginRegister
   }
 };
 </script>

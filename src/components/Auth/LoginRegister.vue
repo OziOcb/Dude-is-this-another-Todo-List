@@ -3,13 +3,13 @@
     <v-container>
       <v-layout>
         <v-flex xs10 offset-xs1 sm8 offset-sm2>
-          <v-banner single-line class="mb-3">
+          <v-banner class="mb-3">
             <v-avatar slot="icon" size="40">
               <v-icon icon="mdi-account-circle" color="white">
                 mdi-account-circle
               </v-icon>
             </v-avatar>
-            Register to access your Todos anywhere!
+            {{ tabTitle }} to access your Todos anywhere!
           </v-banner>
 
           <form>
@@ -33,7 +33,7 @@
               class="mb-3"
             ></v-text-field>
 
-            <v-btn class="mb-1" @click="submit">submit</v-btn>
+            <v-btn class="mb-1" @click="submit">{{ tab }}</v-btn>
             <p class="typo__p green--text" v-if="submitStatus === 'OK'">
               Thanks for your registration!
             </p>
@@ -55,6 +55,8 @@ import { validationMixin } from "vuelidate";
 import { required, minLength, email } from "vuelidate/lib/validators";
 
 export default {
+  props: ["tab"],
+
   mixins: [validationMixin],
 
   validations: {
@@ -69,6 +71,9 @@ export default {
   }),
 
   computed: {
+    tabTitle() {
+      return this.tab.charAt(0).toUpperCase() + this.tab.slice(1);
+    },
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
@@ -96,7 +101,11 @@ export default {
         this.submitStatus = "PENDING";
         setTimeout(() => {
           this.submitStatus = "OK";
-          console.log("register user");
+          if (this.tab === "login") {
+            console.log("login the user");
+          } else {
+            console.log("register the user");
+          }
         }, 500);
       }
     }
