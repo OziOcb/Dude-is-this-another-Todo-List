@@ -33,7 +33,16 @@
               class="mb-3"
             ></v-text-field>
 
-            <v-btn @click="submit">submit</v-btn>
+            <v-btn class="mb-1" @click="submit">submit</v-btn>
+            <p class="typo__p green--text" v-if="submitStatus === 'OK'">
+              Thanks for your registration!
+            </p>
+            <p class="typo__p red--text" v-if="submitStatus === 'ERROR'">
+              Please fill the form correctly.
+            </p>
+            <p class="typo__p blue--text" v-if="submitStatus === 'PENDING'">
+              Sending...
+            </p>
           </form>
         </v-flex>
       </v-layout>
@@ -55,7 +64,8 @@ export default {
 
   data: () => ({
     password: "",
-    email: ""
+    email: "",
+    submitStatus: null
   }),
 
   computed: {
@@ -79,7 +89,16 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
-      console.log("elo");
+      if (this.$v.$invalid) {
+        this.submitStatus = "ERROR";
+      } else {
+        // do your submit logic here
+        this.submitStatus = "PENDING";
+        setTimeout(() => {
+          this.submitStatus = "OK";
+          console.log("register user");
+        }, 500);
+      }
     }
   }
 };
