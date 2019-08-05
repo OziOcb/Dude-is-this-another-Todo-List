@@ -12,22 +12,29 @@
             Register to access your Todos anywhere!
           </v-banner>
 
-          <v-form ref="form" v-model="valid" lazy-validation>
+          <form>
             <v-text-field
-              v-model="formData.email"
-              label="Email"
-              outlined
+              type="email"
+              v-model="email"
+              :error-messages="emailErrors"
+              label="E-mail"
+              required
+              @input="$v.email.$touch()"
+              @blur="$v.email.$touch()"
             ></v-text-field>
-
             <v-text-field
               type="password"
-              v-model="formData.password"
+              v-model="password"
+              :error-messages="passwordErrors"
               label="Password"
-              outlined
+              required
+              @input="$v.password.$touch()"
+              @blur="$v.password.$touch()"
+              class="mb-3"
             ></v-text-field>
 
-            <v-btn color="primary" class="mb-3">Register</v-btn>
-          </v-form>
+            <v-btn @click="submit">submit</v-btn>
+          </form>
         </v-flex>
       </v-layout>
     </v-container>
@@ -35,17 +42,45 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+import { required, minLength, email } from "vuelidate/lib/validators";
+
 export default {
-  data() {
-    return {
-      valid: true,
-      formData: {
-        email: "",
-        password: ""
-      }
-    };
+  mixins: [validationMixin],
+
+  validations: {
+    email: { required, email },
+    password: { required, minLength: minLength(6) }
+  },
+
+  data: () => ({
+    password: "",
+    email: ""
+  }),
+
+  computed: {
+    passwordErrors() {
+      const errors = [];
+      if (!this.$v.password.$dirty) return errors;
+      !this.$v.password.minLength &&
+        errors.push("Password must be at least 6 characters long");
+      !this.$v.password.required && errors.push("Password is required.");
+      return errors;
+    },
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) return errors;
+      !this.$v.email.email && errors.push("Must be valid e-mail");
+      !this.$v.email.required && errors.push("E-mail is required");
+      return errors;
+    }
+  },
+
+  methods: {
+    submit() {
+      this.$v.$touch();
+      console.log("elo");
+    }
   }
 };
 </script>
-
-<style></style>
