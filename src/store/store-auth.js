@@ -15,6 +15,17 @@ const actions = {
       .catch(err => {
         console.log("error message: ", err.message);
       });
+  },
+  // eslint-disable-next-line
+  loginUser({}, payload) {
+    firebaseAuth
+      .signInWithEmailAndPassword(payload.email, payload.password)
+      .then(res => {
+        console.log("response: ", res);
+      })
+      .catch(err => {
+        console.log("error message: ", err.message);
+      });
   }
 };
 

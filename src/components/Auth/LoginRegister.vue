@@ -35,7 +35,7 @@
 
             <v-btn class="mb-1" @click="submit">{{ tab }}</v-btn>
             <p class="typo__p green--text" v-if="submitStatus === 'OK'">
-              Thanks for your registration!
+              {{ succesMessage }}
             </p>
             <p class="typo__p red--text" v-if="submitStatus === 'ERROR'">
               Please fill the form correctly.
@@ -79,6 +79,11 @@ export default {
     tabTitle() {
       return this.tab.charAt(0).toUpperCase() + this.tab.slice(1);
     },
+    succesMessage() {
+      return this.tab === "login"
+        ? "You have been login"
+        : "Thank you for registration";
+    },
     passwordErrors() {
       const errors = [];
       if (!this.$v.formData.password.$dirty) return errors;
@@ -98,7 +103,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("auth", ["registerUser"]),
+    ...mapActions("auth", ["registerUser", "loginUser"]),
     submit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -109,7 +114,7 @@ export default {
         setTimeout(() => {
           this.submitStatus = "OK";
           if (this.tab === "login") {
-            console.log("login the user");
+            this.loginUser(this.formData);
           } else {
             this.registerUser(this.formData);
           }
