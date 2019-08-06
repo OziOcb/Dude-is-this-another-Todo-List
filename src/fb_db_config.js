@@ -1,19 +1,19 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
+import * as firebase from "firebase/app";
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyD4LzZ9KzHB2QGxHE7sJ8b2YMLBmdX0WVs",
-  authDomain: "dude-is-this-another-tod-48d36.firebaseapp.com",
-  databaseURL: "https://dude-is-this-another-tod-48d36.firebaseio.com",
-  projectId: "dude-is-this-another-todo-list",
+import "firebase/auth";
+
+// Web app's Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyCgOUAI0N3gfvdA-Tco9AYLB7yvmIH3MPg",
+  authDomain: "dude-is-this-another-todolist3.firebaseapp.com",
+  databaseURL: "https://dude-is-this-another-todolist3.firebaseio.com",
+  projectId: "dude-is-this-another-todolist3",
   storageBucket: "",
-  messagingSenderId: "447384417632",
-  appId: "1:447384417632:web:01c4a7c254a13321"
+  messagingSenderId: "799828065710",
+  appId: "1:799828065710:web:23c1fbacbd3420f3"
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+let firebaseApp = firebase.initializeApp(firebaseConfig);
+let firebaseAuth = firebaseApp.auth();
 
-const db = firebase.firestore();
-
-export default db;
+export { firebaseAuth };
