@@ -1,8 +1,14 @@
 import { firebaseAuth } from "@/fb_db_config";
 
-const state = {};
+const state = {
+  loggedIn: false
+};
 
-const mutations = {};
+const mutations = {
+  setLoggedIn(state, value) {
+    state.loggedIn = value;
+  }
+};
 
 const actions = {
   // eslint-disable-next-line
@@ -26,10 +32,23 @@ const actions = {
       .catch(err => {
         console.log("error message: ", err.message);
       });
+  },
+  handleAuthStateChange({ commit }) {
+    firebaseAuth.onAuthStateChanged(user => {
+      if (user) {
+        commit("setLoggedIn", true);
+      } else {
+        commit("setLoggedIn", false);
+      }
+    });
   }
 };
 
-const getters = {};
+const getters = {
+  getLoggedIn(state) {
+    return state.loggedIn;
+  }
+};
 
 export default {
   namespaced: true,

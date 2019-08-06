@@ -16,12 +16,6 @@ export default new Vuex.Store({
   state: {
     nav: [
       {
-        name: "auth",
-        icon: "mdi-account-circle",
-        title: "Login",
-        route: "/auth"
-      },
-      {
         name: "list",
         icon: "mdi-format-list-checks",
         title: "List",

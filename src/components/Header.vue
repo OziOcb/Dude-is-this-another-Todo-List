@@ -22,14 +22,25 @@
 
       <!-- nav list (desktop) -->
       <v-toolbar-items class="hidden-sm-and-down">
+        <!-- Loggin button -->
+        <v-btn v-if="!getLoggedIn" :to="{ name: 'auth' }" text exact>
+          Login
+        </v-btn>
+        <!-- Loggin button end -->
+        <!-- Loggout button -->
+        <v-btn v-if="getLoggedIn" text exact>
+          Logout
+        </v-btn>
+        <!-- Loggout button end -->
         <v-btn
           v-for="(item, index) in getNav"
           :key="index"
           :to="{ name: item.name }"
           text
           exact
-          >{{ item.title }}</v-btn
         >
+          {{ item.title }}
+        </v-btn>
       </v-toolbar-items>
       <!-- nav list (desktop) end -->
 
@@ -70,6 +81,30 @@
           v-model="group"
           active-class="info--text text--accent-4"
         >
+          <!-- Login button -->
+          <v-list-item v-if="!getLoggedIn" link :to="{ name: 'auth' }" exact>
+            <v-list-item-icon>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Login</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <!-- Login button end -->
+
+          <!-- Logout button -->
+          <v-list-item v-if="getLoggedIn" link exact>
+            <v-list-item-icon>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <!-- Logout button end -->
+
           <!-- loop through nav-links -->
           <v-list-item
             v-for="(item, index) in getNav"
@@ -105,7 +140,10 @@ export default {
     snackbar: false,
     text: "New task has been added!"
   }),
-  computed: mapGetters(["getNav", "getTotalNumOfTasks"]),
+  computed: {
+    ...mapGetters(["getNav", "getTotalNumOfTasks"]),
+    ...mapGetters("auth", ["getLoggedIn"])
+  },
   watch: {
     group() {
       this.drawer = false;
