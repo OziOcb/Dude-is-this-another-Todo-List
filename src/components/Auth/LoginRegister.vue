@@ -15,21 +15,21 @@
           <form>
             <v-text-field
               type="email"
-              v-model="email"
+              v-model="formData.email"
               :error-messages="emailErrors"
               label="E-mail"
               required
-              @input="$v.email.$touch()"
-              @blur="$v.email.$touch()"
+              @input="$v.formData.email.$touch()"
+              @blur="$v.formData.email.$touch()"
             ></v-text-field>
             <v-text-field
               type="password"
-              v-model="password"
+              v-model="formData.password"
               :error-messages="passwordErrors"
               label="Password"
               required
-              @input="$v.password.$touch()"
-              @blur="$v.password.$touch()"
+              @input="$v.formData.password.$touch()"
+              @blur="$v.formData.password.$touch()"
               class="mb-3"
             ></v-text-field>
 
@@ -53,6 +53,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength, email } from "vuelidate/lib/validators";
+import { mapActions } from "vuex";
 
 export default {
   props: ["tab"],
@@ -60,13 +61,17 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    email: { required, email },
-    password: { required, minLength: minLength(6) }
+    formData: {
+      email: { required, email },
+      password: { required, minLength: minLength(6) }
+    }
   },
 
   data: () => ({
-    password: "",
-    email: "",
+    formData: {
+      password: "",
+      email: ""
+    },
     submitStatus: null
   }),
 
@@ -76,22 +81,24 @@ export default {
     },
     passwordErrors() {
       const errors = [];
-      if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.minLength &&
+      if (!this.$v.formData.password.$dirty) return errors;
+      !this.$v.formData.password.minLength &&
         errors.push("Password must be at least 6 characters long");
-      !this.$v.password.required && errors.push("Password is required.");
+      !this.$v.formData.password.required &&
+        errors.push("Password is required.");
       return errors;
     },
     emailErrors() {
       const errors = [];
-      if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Must be valid e-mail");
-      !this.$v.email.required && errors.push("E-mail is required");
+      if (!this.$v.formData.email.$dirty) return errors;
+      !this.$v.formData.email.email && errors.push("Must be valid e-mail");
+      !this.$v.formData.email.required && errors.push("E-mail is required");
       return errors;
     }
   },
 
   methods: {
+    ...mapActions("auth", ["registerUser"]),
     submit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -104,7 +111,7 @@ export default {
           if (this.tab === "login") {
             console.log("login the user");
           } else {
-            console.log("register the user");
+            this.registerUser(this.formData);
           }
         }, 500);
       }

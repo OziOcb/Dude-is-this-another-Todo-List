@@ -5,9 +5,14 @@ import * as actions from "./actions";
 import * as mutations from "./mutations";
 import * as getters from "./getters";
 
+import auth from "./store-auth";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  modules: {
+    auth
+  },
   state: {
     nav: [
       {
