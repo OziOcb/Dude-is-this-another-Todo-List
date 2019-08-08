@@ -28,7 +28,7 @@
         </v-btn>
         <!-- Loggin button end -->
         <!-- Loggout button -->
-        <v-btn v-if="getLoggedIn" text exact>
+        <v-btn v-if="getLoggedIn" @click="logoutUser" text exact>
           Logout
         </v-btn>
         <!-- Loggout button end -->
@@ -94,7 +94,7 @@
           <!-- Login button end -->
 
           <!-- Logout button -->
-          <v-list-item v-if="getLoggedIn" link exact>
+          <v-list-item v-if="getLoggedIn" @click="logoutUser" link exact>
             <v-list-item-icon>
               <v-icon>mdi-account-circle</v-icon>
             </v-list-item-icon>
@@ -131,7 +131,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data: () => ({
@@ -143,6 +143,9 @@ export default {
   computed: {
     ...mapGetters(["getNav", "getTotalNumOfTasks"]),
     ...mapGetters("auth", ["getLoggedIn"])
+  },
+  methods: {
+    ...mapActions("auth", ["logoutUser"])
   },
   watch: {
     group() {
