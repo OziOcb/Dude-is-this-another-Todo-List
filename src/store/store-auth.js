@@ -1,8 +1,9 @@
 import { firebaseAuth } from "@/fb_db_config";
+import router from "@/router";
 
 const state = {
   loggedIn: false,
-  submitStatus: null
+  submitStatus: ""
 };
 
 const getters = {
@@ -48,8 +49,10 @@ const actions = {
     firebaseAuth.onAuthStateChanged(user => {
       if (user) {
         commit("setLoggedIn", true);
+        router.push("/");
       } else {
         commit("setLoggedIn", false);
+        router.replace("/auth");
       }
     });
   },
