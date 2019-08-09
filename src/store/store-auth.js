@@ -20,9 +20,11 @@ const actions = {
   registerUser({ dispatch }, payload) {
     firebaseAuth
       .createUserWithEmailAndPassword(payload.email, payload.password)
-      .then(res => {
-        console.log("response: ", res);
-        dispatch("handleSubmitStatusChange", "OK");
+      .then(() => {
+        return dispatch("handleSubmitStatusChange", "OK");
+      })
+      .then(() => {
+        router.push({ name: "list" });
       })
       .catch(err => {
         console.log("error message: ", err.message);
@@ -33,9 +35,11 @@ const actions = {
   loginUser({ dispatch }, payload) {
     firebaseAuth
       .signInWithEmailAndPassword(payload.email, payload.password)
-      .then(res => {
-        console.log("response: ", res);
-        dispatch("handleSubmitStatusChange", "OK");
+      .then(() => {
+        return dispatch("handleSubmitStatusChange", "OK");
+      })
+      .then(() => {
+        router.push({ name: "list" });
       })
       .catch(err => {
         console.log("error message: ", err.message);
@@ -44,15 +48,16 @@ const actions = {
   },
   logoutUser() {
     firebaseAuth.signOut();
+    router.replace({ name: "auth" });
   },
   handleAuthStateChange({ commit }) {
     firebaseAuth.onAuthStateChanged(user => {
       if (user) {
         commit("setLoggedIn", true);
-        router.push("/");
+        localStorage.loggedIn = true;
       } else {
         commit("setLoggedIn", false);
-        router.replace("/auth");
+        localStorage.loggedIn = false;
       }
     });
   },
