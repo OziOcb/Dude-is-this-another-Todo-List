@@ -35,12 +35,15 @@
               @keyup.enter="submit"
             ></v-text-field>
 
-            <v-btn class="mb-1" @click="submit">{{ tab }}</v-btn>
+            <v-btn
+              :loading="getSubmitStatus === 'PENDING'"
+              :disabled="getSubmitStatus === 'PENDING'"
+              class="mb-1"
+              @click="submit"
+              >{{ tab }}</v-btn
+            >
 
             <!-- Validation -->
-            <p class="green--text" v-if="getSubmitStatus === 'OK'">
-              {{ succesMessage }}
-            </p>
             <p class="red--text" v-if="getSubmitStatus === 'BAD_LOGIN'">
               There is no user record corresponding to this identifier.
             </p>
@@ -78,17 +81,13 @@ export default {
     formData: {
       password: "",
       email: ""
-    }
+    },
+    loading: false
   }),
   computed: {
     ...mapGetters("auth", ["getSubmitStatus"]),
     tabTitle() {
       return this.tab.charAt(0).toUpperCase() + this.tab.slice(1);
-    },
-    succesMessage() {
-      return this.tab === "login"
-        ? "You have been login"
-        : "Thank you for registration";
     },
     passwordErrors() {
       const errors = [];

@@ -21,7 +21,7 @@ const actions = {
     firebaseAuth
       .createUserWithEmailAndPassword(payload.email, payload.password)
       .then(() => {
-        return dispatch("handleSubmitStatusChange", "OK");
+        return dispatch("handleSubmitStatusChange", "");
       })
       .then(() => {
         router.push({ name: "list" });
@@ -36,7 +36,7 @@ const actions = {
     firebaseAuth
       .signInWithEmailAndPassword(payload.email, payload.password)
       .then(() => {
-        return dispatch("handleSubmitStatusChange", "OK");
+        return dispatch("handleSubmitStatusChange", "");
       })
       .then(() => {
         router.push({ name: "list" });
