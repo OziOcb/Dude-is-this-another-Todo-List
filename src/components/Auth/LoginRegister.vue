@@ -3,6 +3,7 @@
     <v-container>
       <v-layout>
         <v-flex xs10 offset-xs1 sm8 offset-sm2>
+          <!-- Tab Banner -->
           <v-banner class="mb-3">
             <v-avatar slot="icon" size="40">
               <v-icon icon="mdi-account-circle" color="white">
@@ -12,7 +13,9 @@
             {{ tabTitle }} to access your Todos anywhere!
           </v-banner>
 
+          <!-- Login/Register Form -->
           <form>
+            <!-- Email Input Field -->
             <v-text-field
               type="email"
               v-model="formData.email"
@@ -23,6 +26,8 @@
               @blur="$v.formData.email.$touch()"
               @keyup.enter="submit"
             ></v-text-field>
+
+            <!-- Password Input Field -->
             <v-text-field
               type="password"
               v-model="formData.password"
@@ -35,6 +40,7 @@
               @keyup.enter="submit"
             ></v-text-field>
 
+            <!-- Submit Button -->
             <v-btn
               :loading="getSubmitMessage === 'Sending...'"
               :disabled="getSubmitMessage === 'Sending...'"
@@ -43,7 +49,7 @@
               >{{ tab }}</v-btn
             >
 
-            <!-- Validation -->
+            <!-- Validation Message-->
             <p
               class="red--text"
               :class="submitMessageClass"
@@ -51,7 +57,18 @@
             >
               {{ getSubmitMessage }}
             </p>
+
+            <!-- Validation Overlay -->
+            <v-overlay :value="getSubmitMessage === 'Sending...'">
+              <v-progress-circular
+                indeterminate
+                color="blue"
+                size="64"
+              ></v-progress-circular>
+              <p class="mt-3 blue--text">Sending...</p>
+            </v-overlay>
           </form>
+          <!-- Login/Register Form End -->
         </v-flex>
       </v-layout>
     </v-container>
@@ -76,8 +93,7 @@ export default {
     formData: {
       password: "",
       email: ""
-    },
-    loading: false
+    }
   }),
   computed: {
     ...mapGetters("auth", ["getSubmitMessage"]),
