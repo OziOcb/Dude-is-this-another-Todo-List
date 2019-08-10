@@ -3,15 +3,15 @@ import router from "@/router";
 
 const state = {
   loggedIn: false,
-  submitStatus: ""
+  submitMessage: ""
 };
 
 const getters = {
   getLoggedIn(state) {
     return state.loggedIn;
   },
-  getSubmitStatus(state) {
-    return state.submitStatus;
+  getSubmitMessage(state) {
+    return state.submitMessage;
   }
 };
 
@@ -21,14 +21,13 @@ const actions = {
     firebaseAuth
       .createUserWithEmailAndPassword(payload.email, payload.password)
       .then(() => {
-        return dispatch("handleSubmitStatusChange", "");
+        return dispatch("handleSubmitMessageChange", "");
       })
       .then(() => {
         router.push({ name: "list" });
       })
       .catch(err => {
-        console.log("error message: ", err.message);
-        dispatch("handleSubmitStatusChange", "BAD_REGISTER");
+        dispatch("handleSubmitMessageChange", err.message);
       });
   },
   // eslint-disable-next-line
@@ -36,14 +35,13 @@ const actions = {
     firebaseAuth
       .signInWithEmailAndPassword(payload.email, payload.password)
       .then(() => {
-        return dispatch("handleSubmitStatusChange", "");
+        return dispatch("handleSubmitMessageChange", "");
       })
       .then(() => {
         router.push({ name: "list" });
       })
       .catch(err => {
-        console.log("error message: ", err.message);
-        dispatch("handleSubmitStatusChange", "BAD_LOGIN");
+        dispatch("handleSubmitMessageChange", err.message);
       });
   },
   logoutUser() {
@@ -61,8 +59,8 @@ const actions = {
       }
     });
   },
-  handleSubmitStatusChange({ commit }, payload) {
-    commit("setSubmitStatus", payload);
+  handleSubmitMessageChange({ commit }, payload) {
+    commit("setSubmitMessage", payload);
   }
 };
 
@@ -70,8 +68,8 @@ const mutations = {
   setLoggedIn(state, value) {
     state.loggedIn = value;
   },
-  setSubmitStatus(state, payload) {
-    state.submitStatus = payload;
+  setSubmitMessage(state, payload) {
+    state.submitMessage = payload;
   }
 };
 

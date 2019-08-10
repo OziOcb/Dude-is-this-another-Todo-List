@@ -36,25 +36,20 @@
             ></v-text-field>
 
             <v-btn
-              :loading="getSubmitStatus === 'PENDING'"
-              :disabled="getSubmitStatus === 'PENDING'"
+              :loading="getSubmitMessage === 'Sending...'"
+              :disabled="getSubmitMessage === 'Sending...'"
               class="mb-1"
               @click="submit"
               >{{ tab }}</v-btn
             >
 
             <!-- Validation -->
-            <p class="red--text" v-if="getSubmitStatus === 'BAD_LOGIN'">
-              There is no user record corresponding to this identifier.
-            </p>
-            <p class="red--text" v-if="getSubmitStatus === 'BAD_REGISTER'">
-              Something went wrong.. please try again.
-            </p>
-            <p class="red--text" v-if="getSubmitStatus === 'ERROR'">
-              Please fill the form correctly.
-            </p>
-            <p class="blue--text" v-if="getSubmitStatus === 'PENDING'">
-              Sending...
+            <p
+              class="red--text"
+              :class="submitMessageClass"
+              v-if="getSubmitMessage"
+            >
+              {{ getSubmitMessage }}
             </p>
           </form>
         </v-flex>
@@ -85,9 +80,14 @@ export default {
     loading: false
   }),
   computed: {
-    ...mapGetters("auth", ["getSubmitStatus"]),
+    ...mapGetters("auth", ["getSubmitMessage"]),
     tabTitle() {
       return this.tab.charAt(0).toUpperCase() + this.tab.slice(1);
+    },
+    submitMessageClass() {
+      return {
+        "blue--text": this.getSubmitMessage === "Sending..."
+      };
     },
     passwordErrors() {
       const errors = [];
@@ -110,14 +110,14 @@ export default {
     ...mapActions("auth", [
       "registerUser",
       "loginUser",
-      "handleSubmitStatusChange"
+      "handleSubmitMessageChange"
     ]),
     submit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.handleSubmitStatusChange("ERROR");
+        this.handleSubmitMessageChange("Please fill the form correctly!");
       } else {
-        this.handleSubmitStatusChange("PENDING");
+        this.handleSubmitMessageChange("Sending...");
 
         if (this.tab === "login") {
           this.loginUser(this.formData);
