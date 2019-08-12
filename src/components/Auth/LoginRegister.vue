@@ -140,6 +140,9 @@ export default {
         } else {
           this.registerUser(this.formData);
         }
+
+        this.$v.$reset();
+        this.formData.password = "";
       }
     }
   }
