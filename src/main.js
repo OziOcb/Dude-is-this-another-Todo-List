@@ -11,6 +11,14 @@ Vue.config.productionTip = false;
 
 axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
 
+router.beforeEach(function(to, from, next) {
+  if (!JSON.parse(localStorage.loggedIn) && to.path === "/list") {
+    next("/");
+  } else {
+    next();
+  }
+});
+
 new Vue({
   router,
   store,

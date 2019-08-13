@@ -14,10 +14,17 @@
 
 <script>
 import Header from "./components/Header.vue";
+import { mapActions } from "vuex";
 
 export default {
   components: {
     Header
+  },
+  methods: {
+    ...mapActions("auth", ["handleAuthStateChange"])
+  },
+  mounted() {
+    this.handleAuthStateChange();
   }
 };
 </script>
