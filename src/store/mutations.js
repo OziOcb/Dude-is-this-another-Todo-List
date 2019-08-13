@@ -1,4 +1,5 @@
 // import db from "@/fb_db_config.js";
+import Vue from "vue";
 
 // export const FETCH_TASKS = (state, tasks) => {
 //   state.tasks = tasks;
@@ -55,3 +56,7 @@
 // export const ADD_TO_THE_COUNTER = (state, value) => {
 //   state.counter += value;
 // };
+
+export const addTask = (state, payload) => {
+  Vue.set(state.tasks, payload.id, payload.task);
+};

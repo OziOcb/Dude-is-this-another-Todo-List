@@ -10,6 +10,7 @@ export const getTotalNumOfTasks = state => {
   return state.tasks.length;
 };
 
+// eslint-disable-next-line
 export const getTotalNumOfCompletedTasks = state => {
-  return state.tasks.filter(task => task.completed).length;
+  // return state.tasks.filter(task => task.completed).length;
 };

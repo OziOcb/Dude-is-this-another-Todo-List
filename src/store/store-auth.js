@@ -48,11 +48,12 @@ const actions = {
     firebaseAuth.signOut();
     router.replace({ name: "auth" });
   },
-  handleAuthStateChange({ commit }) {
+  handleAuthStateChange({ commit, dispatch }) {
     firebaseAuth.onAuthStateChanged(user => {
       if (user) {
         commit("setLoggedIn", true);
         localStorage.loggedIn = true;
+        dispatch("fetchTasks", null, { root: true });
       } else {
         commit("setLoggedIn", false);
         localStorage.loggedIn = false;

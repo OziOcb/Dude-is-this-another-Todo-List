@@ -17,12 +17,12 @@
         multiple
         active-class="elo"
       >
-        <template v-for="task in filteredTasks">
+        <template v-for="(task, index) in filteredTasks">
           <v-list-item
             class="border"
             :class="{ 'border--success': task.completed }"
-            :key="`item-${task.id}`"
-            :value="task.id"
+            :key="`item-${index}`"
+            :value="index"
             @click.native="toggleTaskCompletion(task)"
           >
             <template v-slot:default="{ active }">
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line
 import { mapGetters, mapActions } from "vuex";
 import TaskRemoveBtn from "@/components/TaskRemoveBtn.vue";
 import TaskFilterBtnsBar from "@/components/TaskFilterBtnsBar.vue";
@@ -63,7 +64,7 @@ export default {
       filter: "all"
     };
   },
-  methods: mapActions(["toggleTaskCompletion", "fetchTasks"]),
+  // methods: mapActions(["toggleTaskCompletion", "fetchTasks"]),
   computed: {
     ...mapGetters([
       "getTasks",
@@ -71,14 +72,22 @@ export default {
       "getTotalNumOfCompletedTasks"
     ]),
     filteredTasks() {
-      let list = [];
+      let list = {};
       const { filter, getTasks } = this;
 
-      filter === "completed"
-        ? (list = getTasks.filter(t => t.completed))
-        : filter === "uncompleted"
-        ? (list = getTasks.filter(t => !t.completed))
-        : (list = getTasks);
+      if (filter === "completed") {
+        Object.keys(getTasks).forEach(t => {
+          if (getTasks[t].completed) list[t] = getTasks[t];
+        });
+      } else if (filter === "uncompleted") {
+        Object.keys(getTasks).forEach(t => {
+          if (!getTasks[t].completed) list[t] = getTasks[t];
+        });
+      } else {
+        Object.keys(getTasks).forEach(t => {
+          list[t] = getTasks[t];
+        });
+      }
 
       return list;
     },
@@ -86,15 +95,16 @@ export default {
       const cTasks = [];
       const { filter, getTasks } = this;
 
-      filter !== "uncompleted"
-        ? getTasks.forEach(t => (t.completed ? cTasks.push(t.id) : false))
-        : false;
+      if (filter !== "uncompleted") {
+        Object.keys(getTasks).forEach(t => {
+          if (getTasks[t].completed === true) {
+            cTasks.push(t);
+          }
+        });
+      }
 
       return cTasks;
     }
-  },
-  created() {
-    this.fetchTasks();
   }
 };
 </script>

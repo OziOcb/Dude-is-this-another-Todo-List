@@ -48,7 +48,7 @@ export default {
     addNewTask() {
       this.errors = this.$v.$anyError;
       if (this.errors === false && this.task !== "") {
-        this.$store.dispatch("addNewTask", this.task);
+        // this.$store.dispatch("addNewTask", this.task);
         this.task = "";
         this.$v.task.$reset();
       }

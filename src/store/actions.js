@@ -1,4 +1,4 @@
-// import db from "@/fb_db_config.js";
+import { firebaseDb, firebaseAuth } from "@/fb_db_config";
 
 // export const fetchTasks = ({ commit, dispatch }) => {
 //   db.collection("tasks").onSnapshot(querySnapshot => {
@@ -30,3 +30,19 @@
 // export const addToTheCounter = ({ commit }, value) => {
 //   commit("ADD_TO_THE_COUNTER", value);
 // };
+
+export const fetchTasks = ({ commit }) => {
+  const userId = firebaseAuth.currentUser.uid;
+  const userTasks = firebaseDb.ref("tasks/" + userId);
+
+  userTasks.on("child_added", snapshot => {
+    const task = snapshot.val();
+
+    const payload = {
+      id: snapshot.key,
+      task: task
+    };
+
+    commit("addTask", payload);
+  });
+};
