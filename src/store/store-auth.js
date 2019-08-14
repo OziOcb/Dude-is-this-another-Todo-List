@@ -53,7 +53,7 @@ const actions = {
       if (user) {
         commit("setLoggedIn", true);
         localStorage.loggedIn = true;
-        dispatch("fetchTasks", null, { root: true });
+        dispatch("FirebaseReadData", null, { root: true });
       } else {
         commit("setLoggedIn", false);
         localStorage.loggedIn = false;

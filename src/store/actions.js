@@ -31,18 +31,33 @@ import { firebaseDb, firebaseAuth } from "@/fb_db_config";
 //   commit("ADD_TO_THE_COUNTER", value);
 // };
 
-export const fetchTasks = ({ commit }) => {
+export const FirebaseReadData = ({ commit }) => {
   const userId = firebaseAuth.currentUser.uid;
   const userTasks = firebaseDb.ref("tasks/" + userId);
 
+  // after task has been added
   userTasks.on("child_added", snapshot => {
     const task = snapshot.val();
-
     const payload = {
       id: snapshot.key,
       task: task
     };
-
     commit("addTask", payload);
+  });
+
+  // after task has been changed
+  userTasks.on("child_changed", snapshot => {
+    const task = snapshot.val();
+    const payload = {
+      id: snapshot.key,
+      updates: task
+    };
+    commit("updateTask", payload);
+  });
+
+  // after task has been removed
+  userTasks.on("child_removed", snapshot => {
+    let taskId = snapshot.key;
+    commit("deleteTask", taskId);
   });
 };
