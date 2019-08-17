@@ -19,13 +19,13 @@
         active-class="elo"
       >
         <!-- filteredTasks shows only tasks that are maching this.filter value -->
-        <template v-for="(task, index) in filteredTasks">
+        <template v-for="(task, id) in filteredTasks">
           <v-list-item
             class="border"
             :class="{ 'border--success': task.completed }"
-            :key="`item-${index}`"
-            :value="index"
-            @click.native="toggleTaskCompletion(task)"
+            :key="`item-${id}`"
+            :value="id"
+            @click.native="firebaseUpdateTask({ task, id })"
           >
             <template v-slot:default="{ active }">
               <v-list-item-action>
@@ -66,7 +66,7 @@ export default {
       filter: "all"
     };
   },
-  // methods: mapActions(["toggleTaskCompletion", "fetchTasks"]),
+  methods: mapActions(["firebaseUpdateTask"]),
   computed: {
     ...mapGetters([
       "getTasks",

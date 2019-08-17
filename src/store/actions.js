@@ -76,3 +76,17 @@ export const firebaseAddTask = ({}, newTaskTitle) => {
   const taskRef = firebaseDb.ref("tasks/" + userId + "/" + payload.id);
   taskRef.set(payload.task);
 };
+
+// Update task at the FirabeseDB
+export const firebaseUpdateTask = ({ state }, currentTask) => {
+  const userId = firebaseAuth.currentUser.uid;
+  const payload = {
+    id: currentTask.id,
+    task: {
+      completed: !state.tasks[currentTask.id].completed
+    }
+  };
+
+  const taskRef = firebaseDb.ref("tasks/" + userId + "/" + payload.id);
+  taskRef.update(payload.task);
+};
