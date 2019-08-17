@@ -1,4 +1,5 @@
 import { firebaseDb, firebaseAuth } from "@/fb_db_config";
+import uniqid from "uniqid";
 
 // export const fetchTasks = ({ commit, dispatch }) => {
 //   db.collection("tasks").onSnapshot(querySnapshot => {
@@ -9,10 +10,6 @@ import { firebaseDb, firebaseAuth } from "@/fb_db_config";
 //     commit("FETCH_TASKS", tasks);
 //     dispatch("updateCounter", tasks.length);
 //   });
-// };
-
-// export const addNewTask = ({ commit }, newTaskTitle) => {
-//   commit("ADD_NEW_TASK", newTaskTitle);
 // };
 
 // export const removeTask = ({ commit }, currentTask) => {
@@ -31,33 +28,51 @@ import { firebaseDb, firebaseAuth } from "@/fb_db_config";
 //   commit("ADD_TO_THE_COUNTER", value);
 // };
 
-export const FirebaseReadData = ({ commit }) => {
+// Listens for any changes made to the FirabeseDB
+export const firebaseReadData = ({ commit }) => {
   const userId = firebaseAuth.currentUser.uid;
   const userTasks = firebaseDb.ref("tasks/" + userId);
 
-  // after task has been added
+  // listens for task to be added
   userTasks.on("child_added", snapshot => {
     const task = snapshot.val();
     const payload = {
       id: snapshot.key,
       task: task
     };
-    commit("addTask", payload);
+    commit("ADD_TASK", payload);
   });
 
-  // after task has been changed
+  // listens for task to be changed
   userTasks.on("child_changed", snapshot => {
     const task = snapshot.val();
     const payload = {
       id: snapshot.key,
       updates: task
     };
-    commit("updateTask", payload);
+    commit("UPDATE_TASK", payload);
   });
 
-  // after task has been removed
+  // listens for task to be removed
   userTasks.on("child_removed", snapshot => {
     let taskId = snapshot.key;
-    commit("deleteTask", taskId);
+    commit("DELETE_TASK", taskId);
   });
+};
+
+// Adds task to the FirabeseDB
+// eslint-disable-next-line
+export const firebaseAddTask = ({}, newTaskTitle) => {
+  const userId = firebaseAuth.currentUser.uid;
+  const taskId = uniqid();
+  const payload = {
+    id: taskId,
+    task: {
+      completed: false,
+      title: newTaskTitle
+    }
+  };
+
+  const taskRef = firebaseDb.ref("tasks/" + userId + "/" + payload.id);
+  taskRef.set(payload.task);
 };

@@ -57,14 +57,14 @@ import Vue from "vue";
 //   state.counter += value;
 // };
 
-export const addTask = (state, payload) => {
+export const ADD_TASK = (state, payload) => {
   Vue.set(state.tasks, payload.id, payload.task);
 };
 
-export const updateTask = (state, payload) => {
+export const UPDATE_TASK = (state, payload) => {
   Object.assign(state.tasks[payload.id], payload.updates);
 };
 
-export const deleteTask = (state, id) => {
+export const DELETE_TASK = (state, id) => {
   Vue.delete(state.tasks, id);
 };

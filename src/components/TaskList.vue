@@ -12,11 +12,13 @@
 
     <!-- LIST -->
     <v-list class="overflow-hidden" shaped>
+      <!-- :value="completedTasksModel" keeps live record of competed tasks -->
       <v-list-item-group
         :value="completedTasksModel"
         multiple
         active-class="elo"
       >
+        <!-- filteredTasks shows only tasks that are maching this.filter value -->
         <template v-for="(task, index) in filteredTasks">
           <v-list-item
             class="border"
@@ -84,9 +86,7 @@ export default {
           if (!getTasks[t].completed) list[t] = getTasks[t];
         });
       } else {
-        Object.keys(getTasks).forEach(t => {
-          list[t] = getTasks[t];
-        });
+        Object.keys(getTasks).forEach(t => (list[t] = getTasks[t]));
       }
 
       return list;
