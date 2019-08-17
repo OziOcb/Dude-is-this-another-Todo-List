@@ -66,27 +66,22 @@ export const firebaseAddTask = ({}, newTaskTitle) => {
   const userId = firebaseAuth.currentUser.uid;
   const taskId = uniqid();
   const payload = {
-    id: taskId,
-    task: {
-      completed: false,
-      title: newTaskTitle
-    }
+    completed: false,
+    title: newTaskTitle
   };
 
-  const taskRef = firebaseDb.ref("tasks/" + userId + "/" + payload.id);
-  taskRef.set(payload.task);
+  const taskRef = firebaseDb.ref("tasks/" + userId + "/" + taskId);
+  taskRef.set(payload);
 };
 
 // Update task at the FirabeseDB
+// toggle between 'completed' and 'uncompleted'
 export const firebaseUpdateTask = ({ state }, currentTask) => {
   const userId = firebaseAuth.currentUser.uid;
   const payload = {
-    id: currentTask.id,
-    task: {
-      completed: !state.tasks[currentTask.id].completed
-    }
+    completed: !state.tasks[currentTask.id].completed
   };
 
-  const taskRef = firebaseDb.ref("tasks/" + userId + "/" + payload.id);
-  taskRef.update(payload.task);
+  const taskRef = firebaseDb.ref("tasks/" + userId + "/" + currentTask.id);
+  taskRef.update(payload);
 };
