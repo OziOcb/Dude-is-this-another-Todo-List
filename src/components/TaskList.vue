@@ -40,7 +40,7 @@
                 <v-list-item-title v-text="task.title"></v-list-item-title>
               </v-list-item-content>
 
-              <TaskRemoveBtn :task="task" />
+              <TaskRemoveBtn :task="task" :taskId="id" />
             </template>
           </v-list-item>
         </template>

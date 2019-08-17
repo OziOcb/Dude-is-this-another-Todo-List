@@ -85,3 +85,11 @@ export const firebaseUpdateTask = ({ state }, currentTask) => {
   const taskRef = firebaseDb.ref("tasks/" + userId + "/" + currentTask.id);
   taskRef.update(payload);
 };
+
+// Remove task at the FirabeseDB
+// eslint-disable-next-line
+export const firebaseRemoveTask = ({}, currentTaskId) => {
+  const userId = firebaseAuth.currentUser.uid;
+  const taskRef = firebaseDb.ref("tasks/" + userId + "/" + currentTaskId);
+  taskRef.remove();
+};
