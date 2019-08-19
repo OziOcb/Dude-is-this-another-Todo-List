@@ -7,11 +7,11 @@ const state = {
 };
 
 const getters = {
-  getLoggedIn(state) {
-    return state.loggedIn;
+  getLoggedIn({ loggedIn }) {
+    return loggedIn;
   },
-  getSubmitMessage(state) {
-    return state.submitMessage;
+  getSubmitMessage({ submitMessage }) {
+    return submitMessage;
   }
 };
 
