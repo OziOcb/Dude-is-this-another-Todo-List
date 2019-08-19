@@ -29,12 +29,7 @@
             NO
           </v-btn>
 
-          <v-btn
-            color="red"
-            text
-            @click="removeTask(task)"
-            @keyup.enter="removeTask(task)"
-          >
+          <v-btn color="red" text @click="removeTask" @keyup.enter="removeTask">
             YES
           </v-btn>
         </v-card-actions>
@@ -44,12 +39,14 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
 export default {
   props: {
     task: {
       type: Object,
+      required: true
+    },
+    taskId: {
+      type: String,
       required: true
     }
   },
@@ -74,6 +71,11 @@ export default {
       ]
     };
   },
-  methods: mapActions(["removeTask"])
+  methods: {
+    removeTask() {
+      this.dialog = false;
+      this.$store.dispatch("firebaseRemoveTask", this.taskId);
+    }
+  }
 };
 </script>

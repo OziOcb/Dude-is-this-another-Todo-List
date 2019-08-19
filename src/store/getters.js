@@ -1,15 +1,25 @@
-export const getNav = state => {
-  return state.nav;
+export const getNav = ({ nav }) => {
+  return nav;
 };
 
-export const getTasks = state => {
-  return state.tasks;
+export const getTasks = ({ tasks }) => {
+  return tasks;
 };
 
-export const getTotalNumOfTasks = state => {
-  return state.tasks.length;
+export const getTotalNumOfTasks = ({ tasks }) => {
+  return Object.keys(tasks).length;
 };
 
-export const getTotalNumOfCompletedTasks = state => {
-  return state.tasks.filter(task => task.completed).length;
+// eslint-disable-next-line
+export const getTotalNumOfCompletedTasks = ({ tasks }) => {
+  let cTasks = [];
+
+  Object.keys(tasks).forEach(task => {
+    if (tasks[task].completed) cTasks.push(task);
+  });
+  return cTasks.length;
+};
+
+export const getTasksDownloaded = ({ tasksDownloaded }) => {
+  return tasksDownloaded;
 };

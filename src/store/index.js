@@ -28,7 +28,8 @@ export default new Vuex.Store({
         route: "/about"
       }
     ],
-    tasks: [],
+    tasks: {},
+    tasksDownloaded: false,
     counter: 0
   },
   getters,

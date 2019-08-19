@@ -7,11 +7,11 @@ const state = {
 };
 
 const getters = {
-  getLoggedIn(state) {
-    return state.loggedIn;
+  getLoggedIn({ loggedIn }) {
+    return loggedIn;
   },
-  getSubmitMessage(state) {
-    return state.submitMessage;
+  getSubmitMessage({ submitMessage }) {
+    return submitMessage;
   }
 };
 
@@ -48,12 +48,15 @@ const actions = {
     firebaseAuth.signOut();
     router.replace({ name: "auth" });
   },
-  handleAuthStateChange({ commit }) {
+  handleAuthStateChange({ commit, dispatch }) {
     firebaseAuth.onAuthStateChanged(user => {
       if (user) {
         commit("setLoggedIn", true);
         localStorage.loggedIn = true;
+        dispatch("firebaseReadData", null, { root: true });
       } else {
+        commit("CLEAR_TASKS", null, { root: true });
+        commit("TASKS_DOWNLOADED", false, { root: true });
         commit("setLoggedIn", false);
         localStorage.loggedIn = false;
       }
