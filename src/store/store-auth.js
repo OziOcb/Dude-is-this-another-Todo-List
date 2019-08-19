@@ -55,6 +55,7 @@ const actions = {
         localStorage.loggedIn = true;
         dispatch("firebaseReadData", null, { root: true });
       } else {
+        commit("CLEAR_TASKS", null, { root: true });
         commit("TASKS_DOWNLOADED", false, { root: true });
         commit("setLoggedIn", false);
         localStorage.loggedIn = false;

@@ -69,6 +69,10 @@ export const DELETE_TASK = (state, id) => {
   Vue.delete(state.tasks, id);
 };
 
+export const CLEAR_TASKS = state => {
+  state.tasks = {};
+};
+
 export const TASKS_DOWNLOADED = (state, value) => {
   state.tasksDownloaded = value;
 };
