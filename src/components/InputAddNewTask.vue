@@ -35,12 +35,11 @@ export default {
   computed: {
     taskErrors() {
       const errors = [];
-      if (!this.$v.task.$dirty) return errors;
-      !this.$v.task.maxLength &&
-        errors.push("Task must be at most 40 characters long");
-      !this.$v.task.minLength &&
-        errors.push("Task must be at least 2 characters long");
-      !this.$v.task.required && errors.push("This field is required.");
+      const { task } = this.$v;
+      if (!task.$dirty) return errors;
+      !task.maxLength && errors.push("Task must be at most 40 characters long");
+      !task.minLength && errors.push("Task must be at least 2 characters long");
+      !task.required && errors.push("This field is required.");
       return errors;
     }
   },
