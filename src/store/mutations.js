@@ -68,3 +68,7 @@ export const UPDATE_TASK = (state, payload) => {
 export const DELETE_TASK = (state, id) => {
   Vue.delete(state.tasks, id);
 };
+
+export const TASKS_DOWNLOADED = (state, value) => {
+  state.tasksDownloaded = value;
+};

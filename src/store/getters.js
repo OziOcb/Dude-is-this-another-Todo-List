@@ -14,3 +14,7 @@ export const getTotalNumOfTasks = state => {
 export const getTotalNumOfCompletedTasks = state => {
   // return state.tasks.filter(task => task.completed).length;
 };
+
+export const getTasksDownloaded = state => {
+  return state.tasksDownloaded;
+};

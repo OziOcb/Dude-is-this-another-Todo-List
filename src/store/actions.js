@@ -33,6 +33,10 @@ export const firebaseReadData = ({ commit }) => {
   const userId = firebaseAuth.currentUser.uid;
   const userTasks = firebaseDb.ref("tasks/" + userId);
 
+  userTasks.once("value", () => {
+    commit("TASKS_DOWNLOADED", true);
+  });
+
   // listens for task to be added
   userTasks.on("child_added", snapshot => {
     const task = snapshot.val();

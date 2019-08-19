@@ -29,6 +29,7 @@ export default new Vuex.Store({
       }
     ],
     tasks: {},
+    tasksDownloaded: false,
     counter: 0
   },
   getters,
