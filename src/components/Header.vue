@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <!-- SNACKBAR -->
-    <v-snackbar v-model="snackbar" bottom :timeout="2000" color="success">
+    <v-snackbar v-model="snackbar" top :timeout="2000" color="success">
       {{ text }}
       <v-btn color="white" text @click="snackbar = false">
         Close
