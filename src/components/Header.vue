@@ -33,7 +33,7 @@
         </v-btn>
         <!-- Loggout button end -->
         <v-btn
-          v-for="(item, index) in getNav"
+          v-for="(item, index) in getFilteredNav"
           :key="index"
           :to="{ name: item.name }"
           text
@@ -107,7 +107,7 @@
 
           <!-- loop through nav-links -->
           <v-list-item
-            v-for="(item, index) in getNav"
+            v-for="(item, index) in getFilteredNav"
             :key="index"
             link
             :to="{ name: item.name }"
@@ -142,7 +142,12 @@ export default {
   }),
   computed: {
     ...mapGetters(["getNav", "getTotalNumOfTasks"]),
-    ...mapGetters("auth", ["getLoggedIn"])
+    ...mapGetters("auth", ["getLoggedIn"]),
+    getFilteredNav() {
+      return !this.getLoggedIn
+        ? this.getNav.filter(item => item.name === "about")
+        : this.getNav;
+    }
   },
   methods: {
     ...mapActions("auth", ["logoutUser"])

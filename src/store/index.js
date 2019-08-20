@@ -19,13 +19,15 @@ export default new Vuex.Store({
         name: "list",
         icon: "mdi-format-list-checks",
         title: "List",
-        route: "/"
+        route: "/",
+        ifCondition: "getLoggedIn"
       },
       {
         name: "about",
         icon: "mdi-comment-question-outline",
         title: "About the Project",
-        route: "/about"
+        route: "/about",
+        ifCondition: true
       }
     ],
     tasks: {},
