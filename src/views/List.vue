@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout wrap>
+    <v-layout wrap :class="{ 'offset-top': $vuetify.breakpoint.smAndDown }">
       <v-flex xs12 sm10 offset-sm1 md8 offset-md2>
         <!-- INPUT -->
         <InputAddNewTask />
@@ -22,3 +22,9 @@ export default {
   components: { TaskList, InputAddNewTask }
 };
 </script>
+
+<style scoped>
+.offset-top {
+  margin-top: 64px;
+}
+</style>

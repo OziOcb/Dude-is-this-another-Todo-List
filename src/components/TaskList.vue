@@ -1,14 +1,11 @@
 <template>
   <v-card>
-    <div class="py-4 text-xs-center">
+    <div class="headline font-weight-light pt-4 pb-5 text-xs-center">
       Tasks: {{ getTotalNumOfTasks }} / Completed:
       {{ getTotalNumOfCompletedTasks }}
     </div>
-    <v-divider></v-divider>
 
     <TaskFilterBtnsBar @changeFilterValue="filter = $event" />
-
-    <v-divider></v-divider>
 
     <!-- LIST -->
     <v-list class="overflow-hidden" shaped>

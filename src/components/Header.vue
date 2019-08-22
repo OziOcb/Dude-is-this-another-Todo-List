@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <!-- SNACKBAR -->
-    <v-snackbar v-model="snackbar" bottom :timeout="2000" color="success">
+    <v-snackbar v-model="snackbar" top :timeout="2000" color="success">
       {{ text }}
       <v-btn color="white" text @click="snackbar = false">
         Close
@@ -33,7 +33,7 @@
         </v-btn>
         <!-- Loggout button end -->
         <v-btn
-          v-for="(item, index) in getNav"
+          v-for="(item, index) in getFilteredNav"
           :key="index"
           :to="{ name: item.name }"
           text
@@ -55,7 +55,12 @@
 
     <!-- NAV DRAWER (mobile) -->
     <v-navigation-drawer v-model="drawer" app right temporary>
-      <v-list-item two-line>
+      <v-list-item
+        link
+        href="https://github.com/OziOcb"
+        target="_blank"
+        two-line
+      >
         <!-- avatar -->
         <v-list-item-avatar>
           <img src="@/assets/oziocb.jpg" />
@@ -107,7 +112,7 @@
 
           <!-- loop through nav-links -->
           <v-list-item
-            v-for="(item, index) in getNav"
+            v-for="(item, index) in getFilteredNav"
             :key="index"
             link
             :to="{ name: item.name }"
@@ -142,7 +147,12 @@ export default {
   }),
   computed: {
     ...mapGetters(["getNav", "getTotalNumOfTasks"]),
-    ...mapGetters("auth", ["getLoggedIn"])
+    ...mapGetters("auth", ["getLoggedIn"]),
+    getFilteredNav() {
+      return !this.getLoggedIn
+        ? this.getNav.filter(item => item.name === "about")
+        : this.getNav;
+    }
   },
   methods: {
     ...mapActions("auth", ["logoutUser"])
