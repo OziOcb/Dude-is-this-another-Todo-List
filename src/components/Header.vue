@@ -55,7 +55,12 @@
 
     <!-- NAV DRAWER (mobile) -->
     <v-navigation-drawer v-model="drawer" app right temporary>
-      <v-list-item two-line>
+      <v-list-item
+        link
+        href="https://github.com/OziOcb"
+        target="_blank"
+        two-line
+      >
         <!-- avatar -->
         <v-list-item-avatar>
           <img src="@/assets/oziocb.jpg" />
