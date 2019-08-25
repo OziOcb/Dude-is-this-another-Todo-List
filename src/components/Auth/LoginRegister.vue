@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <v-card flat class="mb-5">
       <v-container>
         <v-layout>
@@ -74,16 +74,20 @@
         </v-layout>
       </v-container>
     </v-card>
-    <div class="text-xs-center">
-      <p class="body-2 mb-2">
+    <div class="text-xs-center body-2">
+      <p class="mb-0">
         Feel free to create your account and use this app like it is yours.
-        However, if you just want to have a quick look around, you can log in as
-        a
-        <kbd>tony@hawk.com</kbd> with <kbd>Skateboard411</kbd> as a password.
       </p>
-      <p class="heading">Have Fun!</p>
+      <p class="mb-0">
+        However, if you just want to have a quick look around, you can log in as
+        a <kbd>tony@hawk.com</kbd> with <kbd>Skateboard411</kbd> as a password.
+      </p>
+      <p class="caption">
+        *Remember, someone else might be using this account at the very same
+        time.
+      </p>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
